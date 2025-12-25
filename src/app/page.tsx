@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import { QuoteCalculator } from "@/components/QuoteCalculator";
 import { TiltCard } from "@/components/TiltCard";
 
@@ -792,9 +793,18 @@ export default function Home() {
                 Detail<span style={{ color: 'var(--copper)' }}>Quote</span>
               </span>
             </div>
-            <p className="text-sm" style={{ color: 'var(--slate)' }}>
-              Built for detailers, by people who get it.
-            </p>
+            <div className="flex items-center gap-6">
+              <Link
+                href="/privacy"
+                className="text-sm hover:underline transition-colors"
+                style={{ color: 'var(--slate)' }}
+              >
+                Privacy Policy
+              </Link>
+              <p className="text-sm" style={{ color: 'var(--slate)' }}>
+                Built for detailers, by people who get it.
+              </p>
+            </div>
           </div>
         </div>
       </footer>

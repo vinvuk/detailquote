@@ -1,4 +1,4 @@
-// Prisma schema for DetailQuote waitlist
+// Prisma schema for DetailQuote
 
 generator client {
   provider = "prisma-client-js"
@@ -9,7 +9,165 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// Waitlist signup entries
+// ============================================================================
+// AUTH MODELS (NextAuth.js)
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts     Account[]
+  sessions     Session[]
+  business     Business?
+  quotes       Quote[]
+  subscription Subscription?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================================================
+// BUSINESS MODELS
+// ============================================================================
+
+model Business {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  name      String
+  email     String?
+  phone     String?
+  website   String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pricing Pricing?
+}
+
+model Pricing {
+  id           String   @id @default(cuid())
+  businessId   String   @unique
+  vehicleSizes Json     // [{id, label, multiplier}]
+  conditions   Json     // [{id, label, description, multiplier}]
+  services     Json     // [{id, label, basePrice}]
+  addons       Json     // [{id, label, price}]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================================
+// QUOTE MODELS
+// ============================================================================
+
+enum QuoteStatus {
+  DRAFT
+  SENT
+  VIEWED
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+model Quote {
+  id              String      @id @default(cuid())
+  userId          String
+  shareId         String      @unique @default(cuid())
+  customerName    String?
+  customerEmail   String?
+  customerPhone   String?
+  vehicleYear     String?
+  vehicleMake     String?
+  vehicleModel    String?
+  vehicleSize     String
+  condition       String
+  services        Json        // Selected service IDs
+  addons          Json        // Selected addon IDs
+  pricingSnapshot Json        // Full pricing config at time of quote
+  total           Decimal     @db.Decimal(10, 2)
+  notes           String?     @db.Text
+  validUntil      DateTime?
+  status          QuoteStatus @default(DRAFT)
+  viewCount       Int         @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================================
+// SUBSCRIPTION MODELS
+// ============================================================================
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+  INCOMPLETE
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique
+  stripeCustomerId     String             @unique
+  stripeSubscriptionId String?
+  stripePriceId        String?
+  status               SubscriptionStatus @default(TRIALING)
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================================
+// WAITLIST (existing)
+// ============================================================================
+
 model WaitlistEntry {
   id        String   @id @default(cuid())
   email     String   @unique

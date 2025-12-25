@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { QuoteCalculator } from "@/components/QuoteCalculator";
 import { TiltCard } from "@/components/TiltCard";
+import { HeroBackground } from "@/components/backgrounds/AutomotivePatterns";
 
 /**
  * Main landing page for DetailQuote.
@@ -64,6 +65,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
+      {/* Automotive background pattern */}
+      <HeroBackground />
 
       {/* Header */}
       <header className="relative z-10 px-6 py-8 lg:px-12">
@@ -86,7 +89,7 @@ export default function Home() {
       <main className="relative z-10 px-6 lg:px-12">
         {/* Hero Section */}
         <section className="max-w-7xl mx-auto pt-12 lg:pt-20 pb-20">
-          <div className="max-w-4xl mx-auto text-center">
+            <div className="max-w-4xl mx-auto text-center relative z-10">
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 opacity-0 animate-fade-in-up"
               style={{
@@ -219,7 +222,7 @@ export default function Home() {
               <Feature
                 icon={
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 }
                 title="Set your prices once"
@@ -228,7 +231,7 @@ export default function Home() {
               <Feature
                 icon={
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 }
                 title="Adjust for condition"
@@ -237,7 +240,7 @@ export default function Home() {
               <Feature
                 icon={
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                   </svg>
                 }
                 title="Never forget add-ons"

@@ -164,7 +164,6 @@ export function QuoteCalculator({ onSignupClick }: QuoteCalculatorProps) {
                         ? "var(--copper-glow)"
                         : "var(--charcoal)",
                     borderColor: "var(--copper)",
-                    ringColor: "var(--copper)",
                     color:
                       vehicleSize === size.id
                         ? "var(--copper)"

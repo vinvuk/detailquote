@@ -1,26 +1,362 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Showroom Polish palette */
+  --obsidian: #0C0C0C;
+  --charcoal: #1A1A1A;
+  --graphite: #2A2A2A;
+  --slate: #3D3D3D;
+  --cream: #F5F0E8;
+  --warm-white: #FAF8F5;
+  --copper: #C5935A;
+  --copper-light: #D4A86A;
+  --copper-glow: rgba(197, 147, 90, 0.15);
+
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--obsidian);
+  color: var(--cream);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Metallic shimmer animation */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px var(--copper-glow); }
+  50% { box-shadow: 0 0 40px var(--copper-glow), 0 0 60px var(--copper-glow); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+
+/* Copper metallic button */
+.btn-copper {
+  background: linear-gradient(135deg, var(--copper) 0%, var(--copper-light) 50%, var(--copper) 100%);
+  background-size: 200% 100%;
+  color: var(--obsidian);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-copper:hover {
+  animation: shimmer 1.5s ease-in-out infinite;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(197, 147, 90, 0.3);
+}
+
+.btn-copper:active {
+  transform: translateY(0);
+}
+
+/* Glass card effect */
+.glass-card {
+  background: linear-gradient(135deg, rgba(42, 42, 42, 0.6) 0%, rgba(26, 26, 26, 0.8) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(197, 147, 90, 0.1);
+  transition: all 0.4s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(197, 147, 90, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Input styling */
+.input-showroom {
+  background: var(--charcoal);
+  border: 1px solid var(--slate);
+  color: var(--cream);
+  transition: all 0.3s ease;
+}
+
+.input-showroom:focus {
+  border-color: var(--copper);
+  box-shadow: 0 0 0 3px var(--copper-glow);
+  outline: none;
+}
+
+.input-showroom::placeholder {
+  color: rgba(245, 240, 232, 0.4);
+}
+
+/* Divider line with copper accent */
+.divider-copper {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--copper) 50%, transparent 100%);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--copper);
+  color: var(--obsidian);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--charcoal);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--slate);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--copper);
+}
+
+/* =============================================================================
+   3D TRANSFORMS & EFFECTS
+   ============================================================================= */
+
+/* Perspective container - wrap elements that need 3D children */
+.perspective-container {
+  perspective: 1000px;
+  perspective-origin: center;
+}
+
+/* 3D card base - preserves 3D space for children */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+
+/* Floating effect with subtle movement */
+@keyframes float-3d {
+  0%, 100% {
+    transform: translateY(0) rotateX(2deg) rotateY(-2deg);
+  }
+  50% {
+    transform: translateY(-12px) rotateX(-2deg) rotateY(2deg);
+  }
+}
+
+.float-3d {
+  animation: float-3d 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+/* Phone mockup 3D tilt */
+.phone-3d {
+  transform-style: preserve-3d;
+  transform: rotateY(-8deg) rotateX(4deg);
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
+  box-shadow:
+    -20px 20px 60px rgba(0, 0, 0, 0.4),
+    -5px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.phone-3d:hover {
+  transform: rotateY(0deg) rotateX(0deg) scale(1.02);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.3),
+    0 10px 30px rgba(197, 147, 90, 0.1);
+}
+
+/* Screen glare effect */
+.phone-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 55%
+  );
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 10;
+  transition: opacity 0.5s ease;
+}
+
+.phone-3d:hover::before {
+  opacity: 0;
+}
+
+/* Interactive tilt card - controlled by JS */
+.tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s ease-out;
+}
+
+.tilt-card:hover {
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(197, 147, 90, 0.1);
+}
+
+/* Content that pops out of the card */
+.tilt-content {
+  transform: translateZ(30px);
+  transition: transform 0.3s ease-out;
+}
+
+.tilt-card:hover .tilt-content {
+  transform: translateZ(50px);
+}
+
+/* Layered depth effect */
+.depth-layer-1 { transform: translateZ(10px); }
+.depth-layer-2 { transform: translateZ(20px); }
+.depth-layer-3 { transform: translateZ(40px); }
+
+/* Calculator demo 3D container */
+.demo-3d {
+  transform-style: preserve-3d;
+  transform: rotateX(2deg);
+  transition: transform 0.5s ease-out;
+}
+
+.demo-3d:hover {
+  transform: rotateX(0deg) translateY(-8px);
+}
+
+/* Shine sweep animation for premium feel */
+@keyframes shine-sweep {
+  0% {
+    transform: translateX(-100%) rotate(25deg);
+  }
+  100% {
+    transform: translateX(200%) rotate(25deg);
+  }
+}
+
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+}
+
+.shine-effect:hover::after {
+  animation: shine-sweep 0.8s ease-out;
 }

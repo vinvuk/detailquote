@@ -1,10 +1,6 @@
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
-/**
- * Prisma client instance for database operations.
- * Uses singleton pattern to prevent multiple instances in development.
- */
-
+// Singleton pattern for Prisma Client
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };

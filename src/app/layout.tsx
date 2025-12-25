@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Serif_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmSerif = DM_Serif_Display({
+  weight: "400",
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
@@ -25,9 +26,8 @@ export const metadata: Metadata = {
 
 /**
  * Root layout component for the DetailQuote application.
- * Wraps all pages with consistent fonts and styling.
- * @param children - Child components to render within the layout
- * @returns The root HTML structure with applied fonts
+ * @param children - Child components to render
+ * @returns Root HTML structure with custom fonts
  */
 export default function RootLayout({
   children,
@@ -36,9 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${dmSerif.variable} ${plusJakarta.variable} antialiased`}>
         {children}
       </body>
     </html>

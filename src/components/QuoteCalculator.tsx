@@ -199,8 +199,7 @@ export function QuoteCalculator({ onSignupClick }: QuoteCalculatorProps) {
                       condition === cond.id
                         ? "var(--copper-glow)"
                         : "var(--charcoal)",
-                    ringColor: "var(--copper)",
-                    color:
+                                        color:
                       condition === cond.id ? "var(--copper)" : "var(--cream)",
                   }}
                 >
@@ -238,8 +237,7 @@ export function QuoteCalculator({ onSignupClick }: QuoteCalculatorProps) {
                     background: selectedServices.includes(service.id)
                       ? "var(--copper-glow)"
                       : "var(--charcoal)",
-                    ringColor: "var(--copper)",
-                  }}
+                                      }}
                 >
                   <div className="flex items-center gap-3">
                     <div
@@ -299,8 +297,7 @@ export function QuoteCalculator({ onSignupClick }: QuoteCalculatorProps) {
                     background: selectedAddons.includes(addon.id)
                       ? "var(--copper-glow)"
                       : "var(--charcoal)",
-                    ringColor: "var(--copper)",
-                  }}
+                                      }}
                 >
                   <span
                     style={{
